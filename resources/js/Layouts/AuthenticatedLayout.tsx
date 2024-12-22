@@ -1,4 +1,5 @@
 import ApplicationLogo from "@/Components/App/ApplicationLogo";
+import Navbar from "@/Components/App/Navbar";
 import Dropdown from "@/Components/Core/Dropdown";
 import NavLink from "@/Components/Core/NavLink";
 import ResponsiveNavLink from "@/Components/Core/ResponsiveNavLink";
@@ -16,6 +17,7 @@ export default function AuthenticatedLayout({
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+      <Navbar></Navbar>
       <nav className="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 justify-between">
