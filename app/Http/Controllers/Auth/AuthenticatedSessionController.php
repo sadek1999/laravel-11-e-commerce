@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse; // Alias for clarity
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,7 +29,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse|Response
+    public function store(LoginRequest $request): SymfonyResponse|RedirectResponse
     {
         $request->authenticate();
 
@@ -37,10 +38,11 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         if ($user->hasAnyRole([RolesEnum::Admin, RolesEnum::Vendor])) {
-            // Use redirect instead of Inertia::location for compatibility
-            return redirect()->route('filament.admin.pages.dashboard');
+            // Redirect to the admin dashboard
+            return Inertia::location(route('filament.admin.pages.dashboard'));
         } else {
-            return redirect()->route('dashboard');
+            // Redirect to the user dashboard
+            return Inertia::location(route('dashboard'));
         }
     }
 
