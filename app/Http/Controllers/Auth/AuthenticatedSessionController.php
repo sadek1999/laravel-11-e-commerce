@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enum\RolesEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -27,13 +28,20 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request): RedirectResponse|Response
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+
+        if ($user->hasAnyRole([RolesEnum::Admin, RolesEnum::Vendor])) {
+            // Use redirect instead of Inertia::location for compatibility
+            return redirect()->route('filament.admin.pages.dashboard');
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
