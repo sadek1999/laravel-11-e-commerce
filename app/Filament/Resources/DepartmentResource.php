@@ -2,13 +2,17 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\RolesEnum;
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
+// use App\Filament\Resources\DepartmentResource\RelationManagers;
 use App\Models\Department;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -28,11 +32,11 @@ class DepartmentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                            ->live(onBlur:true)
-                            ->required()
-                            ->afterStateUpdated(function (string $operation ,$state,callable $set  ){
-                                $set('slug',str::slug($state));
-                            }),
+                    ->live(onBlur: true)
+                    ->required()
+                    ->afterStateUpdated(function (string $operation, $state, callable $set) {
+                        $set('slug', str::slug($state));
+                    }),
                 TextInput::make('slug')->required(),
                 Checkbox::make('active')
             ]);
@@ -43,10 +47,10 @@ class DepartmentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                     ->searchable()
-                     ->sortable()
+                    ->searchable()
+                    ->sortable()
             ])
-            ->defaultSort('created_at','desc')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
@@ -64,7 +68,9 @@ class DepartmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
+               RelationManagers\CategoriesRelationManager::class
+        //    RelationManagers\CategoriesRelationManager::class
         ];
     }
 
@@ -75,5 +81,10 @@ class DepartmentResource extends Resource
             'create' => Pages\CreateDepartment::route('/create'),
             'edit' => Pages\EditDepartment::route('/{record}/edit'),
         ];
+    }
+    public static function canViewAny(): bool
+    {
+        $user = Filament::auth()->user();
+        return $user && $user->hasRole(RolesEnum::Admin);
     }
 }
