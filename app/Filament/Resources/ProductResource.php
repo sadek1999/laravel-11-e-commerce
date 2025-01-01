@@ -3,16 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Enum\ProductStatusEnum;
+use App\Enum\RolesEnum;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Doctrine\DBAL\Query\From;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
@@ -101,10 +105,18 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                //
+
+                TextColumn::make('title')->searchable()->words(10)->sortable(),
+                TextColumn::make('status')->badge()->color(fn ($state) => ProductStatusEnum::colors()[$state] ?? 'default'),
+
+                TextColumn::make('department.name'),
+                TextColumn::make('category.name'),
+                TextColumn::make('created_at')->dateTime(),
+
             ])
             ->filters([
-                //
+                SelectFilter::make('status')->options(ProductStatusEnum::labels()),
+                SelectFilter::make('department_id')->relationship('department','name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -132,4 +144,9 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
+    // public static function canViewAny(): bool
+    // {
+    //     $user=Filament::auth()->user();
+    //     return $user&& $user->hasAnyRole([RolesEnum::Admin,RolesEnum::Vendor]);
+    // }
 }
