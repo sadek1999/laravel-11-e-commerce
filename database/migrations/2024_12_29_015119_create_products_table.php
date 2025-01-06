@@ -14,16 +14,24 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('title',2000);
-            $table->string('slug',2000);
+            $table->string('title', 2000);
+            $table->string('slug', 2000);
             $table->longText('description');
-            $table->foreignId('department_id')->constrained('departments');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->decimal('price',20,4);
-            $table->string('status')->index();
-            $table->integer('quantity')->nullable();
-            $table->foreignIdFor(User::class, 'created_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('department_id')
+                ->constrained('departments');
+            $table->foreignId('category_id')
+                ->constrained('categories');
+            $table->decimal('price', 20, 4);
+            $table->string('status')
+                ->index();
+            $table->integer('quantity')
+                ->nullable();
+            $table->foreignIdFor(User::class, 'created_by')
+                ->nullable()->constrained('users')
+                ->nullOnDelete();
+            $table->foreignIdFor(User::class, 'updated_by')
+                ->nullable()->constrained('users')
+                ->nullOnDelete();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

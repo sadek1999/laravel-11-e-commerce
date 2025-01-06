@@ -7,6 +7,7 @@ use App\Enum\RolesEnum;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\Pages\EditProduct;
 use App\Filament\Resources\ProductResource\Pages\ProductsImages;
+use App\Filament\Resources\ProductResource\Pages\ProductVariationsTypes;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Doctrine\DBAL\Query\From;
@@ -36,7 +37,7 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-m-queue-list';
-     protected static SubNavigationPosition $subNavigationPosition=SubNavigationPosition::End;
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
     public static function form(Form $form): Form
     {
@@ -112,10 +113,10 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('images')
-                               ->collection('images')
-                               ->limit(1)
+                    ->collection('images')
+                    ->limit(1)
 
-                               ->conversion('thumb'),
+                    ->conversion('thumb'),
 
                 TextColumn::make('title')->searchable()->words(10)->sortable(),
                 TextColumn::make('status')->badge()->color(fn($state) => ProductStatusEnum::colors()[$state] ?? 'default'),
@@ -153,7 +154,8 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
-            'images'=>Pages\ProductsImages::route('/{record}/images')
+            'images' => Pages\ProductsImages::route('/{record}/images'),
+            'variation_types' => Pages\ProductVariationsTypes::route('/{record}/variation_types')
         ];
     }
 
@@ -163,11 +165,11 @@ class ProductResource extends Resource
             $page->generateNavigationItems(
                 [
                     EditProduct::class,
-                    ProductsImages::class
+                    ProductsImages::class,
+                    ProductVariationsTypes::class
 
                 ]
 
-            )
-        ;
+            );
     }
 }

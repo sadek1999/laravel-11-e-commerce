@@ -34,7 +34,10 @@ class DepartmentResource extends Resource
                 TextInput::make('name')
                     ->live(onBlur: true)
                     ->required()
-                    ->afterStateUpdated(function (string $operation, $state, callable $set) {
+                    ->afterStateUpdated(
+                        function
+                        (string $operation, $state, callable $set)
+                         {
                         $set('slug', str::slug($state));
                     }),
                 TextInput::make('slug')->required(),
