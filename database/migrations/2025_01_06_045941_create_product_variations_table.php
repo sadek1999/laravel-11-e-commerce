@@ -11,26 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variation_Types', function (Blueprint $table) {
+        Schema::create('variation_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('productId')
+            $table->foreignId('product_id') // Correct column name
                 ->index()
                 ->constrained('products')
                 ->cascadeOnDelete();
             $table->string('name');
             $table->string('type');
         });
-        Schema::create('variation_Type_Options', function (Blueprint $table) {
+
+        Schema::create('variation_type_options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('VariationTypeId')
+            $table->foreignId('variation_type_id') // Correct column name
                 ->index()
-                ->constrained('variation_Types')
+                ->constrained('variation_types')
                 ->cascadeOnDelete();
             $table->string('name');
         });
+
         Schema::create('product_variations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('productId')
+            $table->foreignId('product_id') // Correct column name
                 ->index()
                 ->constrained('products')
                 ->cascadeOnDelete();

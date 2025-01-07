@@ -13,6 +13,8 @@ class Product extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
+    
+
     public function registerAllMediaConversions(?Media $media = null): void
 
     {
@@ -30,7 +32,7 @@ class Product extends Model implements HasMedia
     {
         return $this->belongsTo(Category::class);
     }
-    public function variation_Types():HasMany
+    public function variationTypes():HasMany
     {
         return $this->hasMany(VariationType::class);
     }
