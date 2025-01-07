@@ -7,6 +7,7 @@ use App\Enum\RolesEnum;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\Pages\EditProduct;
 use App\Filament\Resources\ProductResource\Pages\ProductsImages;
+use App\Filament\Resources\ProductResource\Pages\ProductVariations;
 use App\Filament\Resources\ProductResource\Pages\ProductVariationsTypes;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
@@ -155,7 +156,8 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
             'images' => Pages\ProductsImages::route('/{record}/images'),
-            'variation_types' => Pages\ProductVariationsTypes::route('/{record}/variation_types')
+            'variation_types' => Pages\ProductVariationsTypes::route('/{record}/variation_types'),
+            'productVariations' => Pages\ProductVariations::route('/{record}/productVariations'),
         ];
     }
 
@@ -166,7 +168,8 @@ class ProductResource extends Resource
                 [
                     EditProduct::class,
                     ProductsImages::class,
-                    ProductVariationsTypes::class
+                    ProductVariationsTypes::class,
+                    ProductVariations::class,
 
                 ]
 

@@ -13,8 +13,8 @@ class Product extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    
 
+protected $casts=['products_variation_options' => 'array', ];
     public function registerAllMediaConversions(?Media $media = null): void
 
     {
@@ -35,5 +35,9 @@ class Product extends Model implements HasMedia
     public function variationTypes():HasMany
     {
         return $this->hasMany(VariationType::class);
+    }
+    public function variations():HasMany
+    {
+        return $this->hasMany(ProductVariation::class,'product_id');
     }
 }
