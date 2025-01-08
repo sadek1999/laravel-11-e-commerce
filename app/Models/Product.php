@@ -14,7 +14,7 @@ class Product extends Model implements HasMedia
     use InteractsWithMedia;
 
 
-protected $casts=['products_variation_options' => 'array', ];
+
     public function registerAllMediaConversions(?Media $media = null): void
 
     {
