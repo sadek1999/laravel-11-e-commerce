@@ -11,12 +11,16 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateProduct extends CreateRecord
 {
     protected static string $resource = ProductResource::class;
-    public function mutateFromDataBeforeCreate($data)
+    
+
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
-       
         $data['created_by'] = auth()->id(); // Add authenticated user ID
         $data['updated_by'] = auth()->id();
 
-    return parent::mutateFormDataBeforeCreate($data);
+
+
+
+        return $data;
     }
 }
