@@ -1,5 +1,7 @@
+import Navbar from '@/Components/App/Navbar';
+import ProductItem from '@/Components/App/ProductItem';
 import { PageProps, PaginationProps, TProduct } from '@/types';
-import React from 'react';
+
 
 const Home = ({
   products
@@ -7,7 +9,10 @@ const Home = ({
   console.log(products)
   return (
     <div>
-
+          <Navbar></Navbar>
+          {
+            products.data.map(product=><ProductItem key={product.id} product={product}></ProductItem>)
+          }
     </div>
   );
 };

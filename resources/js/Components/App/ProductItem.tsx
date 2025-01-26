@@ -1,4 +1,5 @@
 import { TProduct } from "@/types";
+import CurrencyFormatter from "../Core/CurrencyFormatter";
 
 const ProductItem = ({ product }: { product: TProduct }) => {
   return (
@@ -10,7 +11,7 @@ const ProductItem = ({ product }: { product: TProduct }) => {
         <div className="card-body">
           <h2 className="card-title">{product.title}</h2>
           <p>If a dog chews shoes whose shoes does he choose?</p>
-          <p>{product.price}</p>
+           <p><CurrencyFormatter amount={product.price}></CurrencyFormatter></p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary">Buy Now</button>
           </div>
