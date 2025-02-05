@@ -17,6 +17,8 @@ use Inertia\Inertia;
 
 Route::get('/',[ProductController::class,'index'])->name('product.index');
 
+Route::get('/product/{product:slug}',[ProductController::class ,'show'])->name('product.show');
+
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
